@@ -26,4 +26,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the wallets for the user.
+     */
+    public function wallets()
+    {
+        return $this->hasMany('App\Wallet');
+    }
+
+    /**
+     * Get the events for the user.
+     */
+    public function events()
+    {
+        return $this->hasMany('App\Event');
+    }
 }
