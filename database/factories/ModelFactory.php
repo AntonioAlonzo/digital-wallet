@@ -22,3 +22,67 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Wallet::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'description' => $faker->text($maxNbChars = 190),
+        'initial_balance' => $faker->numerify('###.##'),
+        'initial_balance_date' => $faker->date('Y-m-d'),
+        'reportable' => $faker->boolean,
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\WalletType::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Currency::class, function (Faker\Generator $faker) {
+    // TODO: Change 'name' to 'country'
+    return [
+        'name' => $faker->country,
+        'code' => $faker->currencyCode,
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+        'type' => $faker->randomElement($array = array('income', 'expense')),
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Transaction::class, function (Faker\Generator $faker) {
+    return [
+        'amount' => $faker->numerify('###.##'),
+        'transaction_date' => $faker->date('Y-m-d'),
+        'note' => $faker->text($maxNbChars = 190),
+        'location' => $faker->streetAddress,
+        'reminder_date' => $faker->date('Y-m-d'),
+        'reportable'=> $faker->boolean,
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Event::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'start_date' => $faker->date('Y-m-d'),
+        'end_date' => $faker->date('Y-m-d'),
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Product::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'barcode' => $faker->ean13,
+    ];
+});

@@ -11,6 +11,42 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $currencies = factory(App\Currency::class, 5)->create();
+        $walletTypes = factory(App\WalletType::class, 9)->create();
+        $categories = factory(App\Category::class, 10)->create();
+        $products = factory(App\Product::class, 15)->create();
+
+        // TODO: Refactor
+        $users = factory(App\User::class, 5)
+            ->create()
+            ->each(function ($user) use ($currencies, $walletTypes, $categories, $products) {
+                $events = factory(App\Event::class, 2)->create(['user_id' => $user->id]);
+
+                factory(App\Wallet::class, 3)
+                    ->create(
+                        [
+                            'user_id' => $user->id,
+                            'currency_id' => $currencies[rand(0, 4)]->id,
+                            'wallet_type_id' => $walletTypes[rand(0, 8)]->id,
+                        ]
+                    )
+                    ->each(function ($wallet) use ($categories, $products, $events) {
+                        factory(App\Transaction::class, 3)
+                            ->create(
+                                [
+                                    'wallet_id' => $wallet->id,
+                                    'category_id' => $categories[rand(0, 9)]->id,
+                                    'event_id' => $events[rand(0, 1)]->id,
+                                ]
+                            )
+                            ->each(function ($transaction) use ($products) {
+                                for ($i = 0; $i < 2; $i++) {
+                                    $transaction->products()->attach($products[rand(0, 14)]->id);
+                                }
+                            });
+                    });
+            });
+
+
     }
 }

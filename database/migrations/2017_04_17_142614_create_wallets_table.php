@@ -17,7 +17,7 @@ class CreateWalletsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('initial_balance')->default('0.00');
+            $table->decimal('initial_balance', 19, 4)->default(0);
             $table->date('initial_balance_date')->nullable();
             $table->boolean('reportable')->default(false);
             $table->timestamps();

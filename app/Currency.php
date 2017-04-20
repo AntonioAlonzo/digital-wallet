@@ -10,6 +10,8 @@ class Currency extends Model
      * The attributes that are mass assignable.
      *
      * @var array
+     *
+     * TODO: Change 'name' to 'country'
      */
     protected $fillable = [
         'name', 'code',
