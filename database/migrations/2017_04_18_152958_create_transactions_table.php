@@ -15,7 +15,7 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('amount')->default('0.00');
+            $table->decimal('amount', 19, 4)->default(0);
             $table->date('transaction_date');
             $table->string('note')->nullable();
             $table->string('location')->nullable();
