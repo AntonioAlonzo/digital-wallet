@@ -11,6 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Create the initial balance category
+        DB::table('categories')->insert([
+            'name' => 'initial balance',
+            'type' => 'income',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
         $currencies = factory(App\Currency::class, 5)->create();
         $walletTypes = factory(App\WalletType::class, 9)->create();
         $categories = factory(App\Category::class, 10)->create();

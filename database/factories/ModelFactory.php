@@ -27,8 +27,8 @@ $factory->define(App\Wallet::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->words($nb = 3, $asText = true),
         'description' => $faker->text($maxNbChars = 190),
-        'initial_balance' => $faker->numerify('###.##'),
-        'initial_balance_date' => $faker->date('Y-m-d'),
+        //'initial_balance' => $faker->numerify('###.##'),
+        //'initial_balance_date' => $faker->date('Y-m-d'),
         'reportable' => $faker->boolean,
     ];
 });

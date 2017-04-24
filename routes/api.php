@@ -20,5 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function () {
-
+    Route::get('/wallets', 'WalletController@index');
+    Route::get('/wallets/{id}', 'WalletController@show');
+    Route::post('/wallets', 'WalletController@store');
+    Route::delete('/wallets/{id}', 'WalletController@destroy');
+    Route::put('/wallets/{id}', 'WalletController@modify');
+    Route::patch('/wallets/{id}', 'WalletController@update');
 });
