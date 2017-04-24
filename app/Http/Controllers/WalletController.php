@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Wallet;
-use Validator;
-use Illuminate\Support\Facades\Auth;
+use App\Transformers\WalletTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class WalletController extends Controller
 {
@@ -16,7 +17,9 @@ class WalletController extends Controller
      */
     public function index()
     {
-        return responder()->success(Wallet::where('user_id', Auth::user()->id)->get());
+        $wallets = Wallet::where('user_id', Auth::user()->id)->paginate(5);
+
+        return responder()->transform($wallets, new WalletTransformer)->respond();
     }
 
     /**
@@ -31,15 +34,13 @@ class WalletController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'description' => 'nullable|max:255',
-            //'initial_balance' => 'nullable|min:0',
-            //'initial_balance_date' => 'nullable|date',
             'reportable' => 'nullable|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
             'wallet_type_id' => 'required|integer|exists:wallet_types,id'
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed');
+            return responder()->error('validation_failed', 422);
         }
 
         $wallet = new Wallet;
@@ -51,11 +52,7 @@ class WalletController extends Controller
         $wallet->user_id = Auth::user()->id;
         $wallet->save();
 
-        // TODO: Create a new transaction as initial balance if proportioned, maybe?
-        //$wallet->initial_balance = $request->initial_balance;
-        //$wallet->initial_balance_date = $request->initial_balance_date;
-
-        return responder()->success();
+        return responder()->success(201);
     }
 
     /**
@@ -69,10 +66,10 @@ class WalletController extends Controller
         $wallet = Wallet::findOrFail($id);
 
         if ($wallet->user_id == Auth::user()->id) {
-            return responder()->success($wallet);
+            return responder()->transform($wallet, new WalletTransformer)->include('transactions')->respond();
         }
 
-        return responder()->error('unauthorized');
+        return responder()->error('unauthorized', 403);
     }
 
     /**
@@ -93,7 +90,7 @@ class WalletController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed');
+            return responder()->error('validation_failed', 422);
         }
 
         $wallet = Wallet::findOrFail($id);
@@ -105,7 +102,7 @@ class WalletController extends Controller
             return responder()->success();
         }
 
-        return responder()->error('unauthorized');
+        return responder()->error('unauthorized', 403);
     }
 
     /**
@@ -126,7 +123,7 @@ class WalletController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed');
+            return responder()->error('validation_failed', 422);
         }
 
         $wallet = Wallet::findOrFail($id);
@@ -138,7 +135,7 @@ class WalletController extends Controller
             return responder()->success();
         }
 
-        return responder()->error('unauthorized');
+        return responder()->error('unauthorized', 403);
     }
 
     /**
@@ -157,6 +154,6 @@ class WalletController extends Controller
             return responder()->success();
         }
 
-        return responder()->error('unauthorized');
+        return responder()->error('unauthorized', 403);
     }
 }

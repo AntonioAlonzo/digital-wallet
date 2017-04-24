@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Transformers\TransactionTransformer;
+use Flugg\Responder\Contracts\Transformable;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class Transaction extends Model implements Transformable
 {
     /**
      * The attributes that are mass assignable.
@@ -45,5 +47,15 @@ class Transaction extends Model
     public function products()
     {
         return $this->belongsToMany('App\Product');
+    }
+
+    /**
+     * The transformer used to transform the model data.
+     *
+     * @return Transformer|callable|string|null
+     */
+    public static function transformer()
+    {
+        return TransactionTransformer::class;
     }
 }
