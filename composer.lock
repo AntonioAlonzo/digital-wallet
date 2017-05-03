@@ -150,16 +150,16 @@
         },
         {
             "name": "flugger/laravel-responder",
-            "version": "v1.2.21",
+            "version": "v1.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flugger/laravel-responder.git",
-                "reference": "c828c8aaa24a92cfa17444c717c381c167ab93f4"
+                "reference": "de61b3b3fa4e45cd212a2ff9b13b0a085c55caf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flugger/laravel-responder/zipball/c828c8aaa24a92cfa17444c717c381c167ab93f4",
-                "reference": "c828c8aaa24a92cfa17444c717c381c167ab93f4",
+                "url": "https://api.github.com/repos/flugger/laravel-responder/zipball/de61b3b3fa4e45cd212a2ff9b13b0a085c55caf0",
+                "reference": "de61b3b3fa4e45cd212a2ff9b13b0a085c55caf0",
                 "shasum": ""
             },
             "require": {
@@ -203,7 +203,7 @@
                 "response",
                 "transformer"
             ],
-            "time": "2017-03-03T02:37:26+00:00"
+            "time": "2017-04-25T11:52:08+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -481,16 +481,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.38",
+            "version": "1.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482"
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
-                "reference": "4ba6e13f5116204b21c3afdf400ecf2b9eb1c482",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/2474325ee924134bb05848663b12531f6f2e9fbe",
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe",
                 "shasum": ""
             },
             "require": {
@@ -560,7 +560,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-04-22T18:59:19+00:00"
+            "time": "2017-04-25T15:24:43+00:00"
         },
         {
             "name": "league/fractal",
