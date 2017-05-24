@@ -21,7 +21,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/wallets/{id}', 'WalletController@show');
         Route::post('/wallets', 'WalletController@store');
         Route::delete('/wallets/{id}', 'WalletController@destroy');
-        Route::put('/wallets/{id}', 'WalletController@modify');
         Route::patch('/wallets/{id}', 'WalletController@update');
     });
 });

@@ -45,9 +45,6 @@ class WalletController extends Controller
         $wallet = new Wallet;
         $wallet->name = $request->name;
         $wallet->description = $request->description;
-        $wallet->reportable = $request->reportable;
-        $wallet->currency_id = $request->currency_id;
-        $wallet->wallet_type_id = $request->wallet_type_id;
         $wallet->user_id = Auth::user()->id;
         $wallet->save();
 
@@ -82,43 +79,7 @@ class WalletController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|max:255',
-            'description' => 'sometimes|max:255',
-            'reportable' => 'sometimes|boolean',
-            'currency_id' => 'sometimes|integer|exists:currencies,id',
-            'wallet_type_id' => 'sometimes|integer|exists:wallet_types,id'
-        ]);
-
-        if ($validator->fails()) {
-            return responder()->error('validation_failed', 422);
-        }
-
-        $wallet = Wallet::findOrFail($id);
-
-        if ($wallet->user_id == Auth::user()->id) {
-            $wallet->fill($request->all());
-            $wallet->save();
-
-            return responder()->success();
-        }
-
-        return responder()->error('unauthorized', 403);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function modify(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'description' => 'nullable|max:255',
-            'reportable' => 'nullable|boolean',
-            'currency_id' => 'required|integer|exists:currencies,id',
-            'wallet_type_id' => 'required|integer|exists:wallet_types,id'
+            'description' => 'sometimes|max:255'
         ]);
 
         if ($validator->fails()) {
