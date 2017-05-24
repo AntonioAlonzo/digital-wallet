@@ -27,9 +27,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/categories', 'CategoryController@index');
         Route::get('/categories/{id}', 'CategoryController@show');
 
-
-
-
     });
 });
 

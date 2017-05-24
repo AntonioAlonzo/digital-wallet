@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Transformers\CategoryTransformer;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -16,6 +16,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        if(Auth::user()!=null) {
         $categories = Category::all();
 
         if($request->has('name') ){
@@ -26,46 +27,21 @@ class CategoryController extends Controller
             $categories=$categories->where('type',$request->input('type'));
         }
 
-        if(count($categories)>0) {
-            return responder()->transform($categories, new CategoryTransformer)->respond();
+
+            if (count($categories) > 0) {
+                return responder()->transform($categories, new CategoryTransformer)->respond();
+            }
+            return responder()->error('Not Found', 404, "Category not found");
         }
-
-        return responder()->error('Not Found', 404,"Category not found");
-
+        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function show($id)
     {
+        if(Auth::user()!=null) {
         $category = Category::findOrfail($id);
-
             return responder()->transform($category, new CategoryTransformer)->respond();
-
+        }
+        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
     }
-
-
-    public function searchByName($name)
-    {
-        $categories = Category::where('name',$name);
-
-        return responder()->transform($categories, new CategoryTransformer)->respond();
-
-    }
-
-    public function searchByType($type)
-    {
-        $categories = Category::where('type',$type);
-
-        return responder()->transform($categories, new CategoryTransformer)->respond();
-
-    }
-
-
-
-
 }
