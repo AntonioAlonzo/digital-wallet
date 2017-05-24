@@ -22,7 +22,7 @@ class Wallet extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'initial_balance', 'initial_balance_date', 'reportable',
+        'name', 'description',
     ];
 
     /**
