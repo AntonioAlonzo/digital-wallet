@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transference extends Model
 {
     /**
-     * Get the wallet that owns the transaction.
+     * Get the user that owns the transference.
      */
     public function user()
     {
@@ -15,13 +15,20 @@ class Transference extends Model
     }
 
     /**
-     * Get the category that owns the transaction.
+     * Get the transactions link to the the transference.
      */
-    public function category()
+    public function transactions()
     {
-        return $this->belongsTo('App\Category');
+        return $this->hasMany('App\Transaction');
     }
 
+    /**
+     * Get the wallets link to the the transference.
+     */
+    public function wallets()
+    {
+        return $this->hasMany('App\Wallet');
+    }
     /**
      * The transformer used to transform the model data.
      *
@@ -29,6 +36,6 @@ class Transference extends Model
      */
     public static function transformer()
     {
-        return TransactionTransformer::class;
+        return TransferenceTransformer::class;
     }
 }
