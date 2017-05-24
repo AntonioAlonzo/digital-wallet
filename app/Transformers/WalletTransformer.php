@@ -13,7 +13,7 @@ class WalletTransformer extends Transformer
      *
      * @var array
      */
-    protected $relations = ['*'];
+    protected $relations = [];
 
     /**
      * Transform the model data into a generic array.

@@ -30,7 +30,6 @@ class WalletController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Check another way to return the response if validation fails. E.g., try-catch
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'description' => 'nullable|max:255',
@@ -65,7 +64,7 @@ class WalletController extends Controller
     {
         $wallet = Wallet::findOrFail($id);
 
-        if ($wallet->user_id == Auth::user()->id) {
+        if (Auth::user()->can('show', $wallet)) {
             return responder()->transform($wallet, new WalletTransformer)->include('transactions')->respond();
         }
 
