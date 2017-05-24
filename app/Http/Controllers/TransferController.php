@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Transference;
+use App\Transfer;
 use Illuminate\Http\Request;
 
-class TransferenceController extends Controller
+class TransferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TransferenceController extends Controller
      */
     public function index()
     {
-        $transferences = Transference::where("user_id", Auth::user()->id);
+        $transferences = Transfer::where("user_id", Auth::user()->id);
 
         if(count($transferences->get())>0){
             return responder()->success($transferences);
@@ -78,12 +78,12 @@ class TransferenceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Transference  $transference
+     * @param  \App\Transfer  $transference
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $transference = Transference::findOrFail($id);
+        $transference = Transfer::findOrFail($id);
 
         return responder()->success($transference);
     }

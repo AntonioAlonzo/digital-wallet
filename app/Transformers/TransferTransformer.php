@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Transference;
+use App\Transfer;
 use Flugg\Responder\Transformer;
 
-class TransferenceTransformer extends Transformer
+class TransferTransformer extends Transformer
 {
     /**
      * A list of all available relations.
@@ -17,10 +17,10 @@ class TransferenceTransformer extends Transformer
     /**
      * Transform the model data into a generic array.
      *
-     * @param  Transference $transference
+     * @param  Transfer $transference
      * @return array
      */
-    public function transform(Transference $transference)
+    public function transform(Transfer $transference)
     {
         return [
             'id' => (int) $transference->id,

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transference extends Model
+class Transfer extends Model
 {
     /**
      * Get the user that owns the transference.
