@@ -84,7 +84,7 @@ class TransactionController extends Controller
         $transaction->wallet_id = $request->wallet_id;
         $transaction->save();
 
-        return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
+        return responder()->success(Config::get('constants.HTTP_CODES.CREATE_SUCCESS'));
     }
 
     /**

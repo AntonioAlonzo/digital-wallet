@@ -70,7 +70,7 @@ class WalletController extends Controller
         $wallet->user_id = Auth::user()->id;
         $wallet->save();
 
-        return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
+        return responder()->success(Config::get('constants.HTTP_CODES.CREATE_SUCCESS'));
     }
 
     /**
