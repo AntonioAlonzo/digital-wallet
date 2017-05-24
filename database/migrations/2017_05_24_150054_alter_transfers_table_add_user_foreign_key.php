@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterEventsTableAddUserForeignKey extends Migration
+class AlterTransfersTableAddUserForeignKey extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class AlterEventsTableAddUserForeignKey extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('transfers', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -25,8 +26,9 @@ class AlterEventsTableAddUserForeignKey extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
+        Schema::table('transfers', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 }

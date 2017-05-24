@@ -10,6 +10,8 @@ class CreateCurrenciesTable extends Migration
      * Run the migrations.
      *
      * @return void
+     *
+     * TODO: Change 'name' to 'country'
      */
     public function up()
     {

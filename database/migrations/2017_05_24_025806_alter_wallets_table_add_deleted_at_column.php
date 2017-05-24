@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterWalletsTableAddWalletTypeForeignKey extends Migration
+class AlterWalletsTableAddDeletedAtColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AlterWalletsTableAddWalletTypeForeignKey extends Migration
     public function up()
     {
         Schema::table('wallets', function (Blueprint $table) {
-            $table->foreign('wallet_type_id')->references('id')->on('wallet_types')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
@@ -26,7 +26,7 @@ class AlterWalletsTableAddWalletTypeForeignKey extends Migration
     public function down()
     {
         Schema::table('wallets', function (Blueprint $table) {
-            $table->dropForeign(['wallet_type_id']);
+            $table->dropColumn('deleted_at');
         });
     }
 }
