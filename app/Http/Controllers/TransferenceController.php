@@ -40,36 +40,37 @@ class TransferenceController extends Controller
             'reminder_date' => 'nullable|max:255',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
-            'wallet_id' => 'required|integer|exists:wallets,id',
+            'origin_wallet_id' => 'required|integer|exists:wallets,id',
+            'target_wallet_id' => 'required|integer|exists:wallets,id',
         ]);
 
         if ($validator->fails()) {
             return responder()->error('validation_failed', 422);
         }
 
-        $transaction1 = new Transaction();
-        $transaction1->amount = $request->amount;
-        $transaction1->transaction_date = $request->transaction_date;
-        $transaction1->note = $request->note;
-        $transaction1->location = $request->location;
-        $transaction1->reminder_date = $request->reminder_date;
-        $transaction1->reportable = $request->reportable;
-        $transaction1->currency_id = $request->currency_id;
-        $transaction1->category_id = 0;
-        $transaction1->wallet_id = $request->wallet_id;
-        $transaction1->save();
+        $transactionExpense = new Transaction();
+        $transactionExpense->amount = $request->amount;
+        $transactionExpense->transaction_date = $request->transaction_date;
+        $transactionExpense->note = $request->note;
+        $transactionExpense->location = $request->location;
+        $transactionExpense->reminder_date = $request->reminder_date;
+        $transactionExpense->reportable = $request->reportable;
+        $transactionExpense->currency_id = $request->currency_id;
+        $transactionExpense->category_id = 0;
+        $transactionExpense->wallet_id = $request->origin_wallet_id;
+        $transactionExpense->save();
 
-        $transaction = new Transaction();
-        $transaction->amount = $request->amount;
-        $transaction->transaction_date = $request->transaction_date;
-        $transaction->note = $request->note;
-        $transaction->location = $request->location;
-        $transaction->reminder_date = $request->reminder_date;
-        $transaction->reportable = $request->reportable;
-        $transaction->currency_id = $request->currency_id;
-        $transaction->category_id = 1;
-        $transaction->wallet_id = $request->wallet_id;
-        $transaction->save();
+        $transactionIncome = new Transaction();
+        $transactionIncome->amount = $request->amount;
+        $transactionIncome->transaction_date = $request->transaction_date;
+        $transactionIncome->note = $request->note;
+        $transactionIncome->location = $request->location;
+        $transactionIncome->reminder_date = $request->reminder_date;
+        $transactionIncome->reportable = $request->reportable;
+        $transactionIncome->currency_id = $request->currency_id;
+        $transactionIncome->category_id = 1;
+        $transactionIncome->wallet_id = $request->target_wallet_id;
+        $transactionIncome->save();
 
         return responder()->success(201);
     }
