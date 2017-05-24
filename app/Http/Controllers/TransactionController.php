@@ -31,7 +31,13 @@ class TransactionController extends Controller
             return responder()->success($transactions);
         }
 
-        return responder()->error('Not Found', 404,"No transaction was found");
+        return responder()
+            ->error
+            (
+                Config::get('constants.ERROR_CODES.RESOURCE_NOT_FOUND'),
+                Config::get('constants.HTTP_CODES.RESOURCE_NOT_FOUND'),
+                Config::get('constants.ERROR_MESSAGES.RESOURCE_NOT_FOUND')
+            );
     }
 
 
@@ -56,7 +62,12 @@ class TransactionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed', 422);
+            return responder()
+                ->error
+                (Config::get('constants.ERROR_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.HTTP_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.ERROR_MESSAGES.VALIDATION_FAILED')
+                );
         }
 
         $transaction = new Transaction();
@@ -71,7 +82,7 @@ class TransactionController extends Controller
         $transaction->wallet_id = $request->wallet_id;
         $transaction->save();
 
-        return responder()->success(201);
+        return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
     }
 
     /**
@@ -89,7 +100,12 @@ class TransactionController extends Controller
                 return responder()->transform($transaction, new TransactionTransformer())->respond();
         }
 
-        return responder()->error('unauthorized', 403);
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 
     /**
@@ -114,7 +130,12 @@ class TransactionController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed', 422);
+            return responder()
+                ->error
+                (Config::get('constants.ERROR_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.HTTP_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.ERROR_MESSAGES.VALIDATION_FAILED')
+                );
         }
 
         $transaction = Transaction::findOrFail($id);
@@ -124,10 +145,15 @@ class TransactionController extends Controller
             $transaction->fill($request->all());
             $transaction->save();
 
-            return responder()->success();
+            return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
         }
 
-        return responder()->error('unauthorized', 403);
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 
     /**
@@ -144,9 +170,14 @@ class TransactionController extends Controller
         if ($wallet->user_id == Auth::user()->id) {
             $transaction->delete();
 
-            return responder()->success();
+            return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
         }
 
-        return responder()->error('unauthorized', 403);
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 }

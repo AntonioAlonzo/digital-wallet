@@ -24,7 +24,13 @@ class TransferController extends Controller
             return responder()->success($transfer);
         }
 
-        return responder()->error('Not Found', 404, "No transference was found");
+        return responder()
+            ->error
+            (
+                Config::get('constants.ERROR_CODES.RESOURCE_NOT_FOUND'),
+                Config::get('constants.HTTP_CODES.RESOURCE_NOT_FOUND'),
+                Config::get('constants.ERROR_MESSAGES.RESOURCE_NOT_FOUND')
+            );
     }
 
 
@@ -49,7 +55,13 @@ class TransferController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return responder()->error('validation_failed', 422);
+            return responder()
+                ->error
+                (
+                    Config::get('constants.ERROR_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.HTTP_CODES.VALIDATION_FAILED'),
+                    Config::get('constants.ERROR_MESSAGES.VALIDATION_FAILED')
+                );
         }
 
         $transactionExpense= Transaction::create(['amount' => $request->amount, 'transaction_date' => $request->transaction_date,
@@ -69,7 +81,7 @@ class TransferController extends Controller
         $transfer->user_id = Auth::user()->id;
         $transfer->save();
 
-        return responder()->success(201);
+        return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
     }
 
     /**
