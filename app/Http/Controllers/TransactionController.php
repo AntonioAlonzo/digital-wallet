@@ -7,7 +7,9 @@ use App\Transformers\TransactionTransformer;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Validator;
+
 
 class TransactionController extends Controller
 {
@@ -82,7 +84,7 @@ class TransactionController extends Controller
         $transaction->wallet_id = $request->wallet_id;
         $transaction->save();
 
-        return responder()->success(Config::get('constants.HTTP_CODES.SUCCESS'));
+        return responder()->success(Config::get('constants.HTTP_CODES.CREATE_SUCCESS'));
     }
 
     /**
