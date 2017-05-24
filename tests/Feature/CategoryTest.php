@@ -10,14 +10,15 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class CategoryTest extends TestCase
 {
 
-    
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+ use DatabaseTransactions;
+
+ public function testCorrectIndex(){
+     //this->client->request('GET','categories');
+     $response=$this->call('GET','categories');
+
+     $this->assertEquals('200', $response->foundation->getStatusCode());
+
+ }
+
+
 }
