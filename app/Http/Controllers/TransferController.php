@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Transfer;
 use Illuminate\Http\Request;
+use App\Transaction;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class TransferController extends Controller
 {
@@ -16,18 +19,18 @@ class TransferController extends Controller
     {
         $transfer = Transfer::where("user_id", Auth::user()->id);
 
-        if(count($transfer->get())>0){
+        if (count($transfer->get()) > 0) {
             return responder()->success($transfer);
         }
 
-        return responder()->error('Not Found', 404,"No transference was found");
+        return responder()->error('Not Found', 404, "No transference was found");
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,35 +52,23 @@ class TransferController extends Controller
         }
 
         $transactionExpense = new Transaction();
-        $transactionExpense->amount = $request->amount;
-        $transactionExpense->transaction_date = $request->transaction_date;
-        $transactionExpense->note = $request->note;
-        $transactionExpense->location = $request->location;
-        $transactionExpense->reminder_date = $request->reminder_date;
-        $transactionExpense->reportable = $request->reportable;
-        $transactionExpense->currency_id = $request->currency_id;
-        $transactionExpense->category_id = 0;
-        $transactionExpense->wallet_id = $request->origin_wallet_id;
-        $transactionExpense->create();
+        $transactionExpense= Transaction::create(['amount' => $request->amount, 'transaction_date' => $request->transaction_date,
+            'note' =>$request->note, 'location' => $request->location, 'reminder_date' => $request->reminder_date,
+            'reportable' => $request->reportable, 'currency_id' => $request->currency_id, 'category_id' => 18,
+            'wallet_id' => $request->origin_wallet_id ]);
+
 
         $transactionIncome = new Transaction();
-        $transactionIncome->amount = $request->amount;
-        $transactionIncome->transaction_date = $request->transaction_date;
-        $transactionIncome->note = $request->note;
-        $transactionIncome->location = $request->location;
-        $transactionIncome->reminder_date = $request->reminder_date;
-        $transactionIncome->reportable = $request->reportable;
-        $transactionIncome->currency_id = $request->currency_id;
-        $transactionIncome->category_id = 1;
-        $transactionIncome->wallet_id = $request->target_wallet_id;
-        $transactionIncome->create();
+        $transactionIncome= Transaction::create(['amount' => $request->amount, 'transaction_date' => $request->transaction_date,
+            'note' =>$request->note, 'location' => $request->location, 'reminder_date' => $request->reminder_date,
+            'reportable' => $request->reportable, 'currency_id' => $request->currency_id, 'category_id' => 7,
+            'wallet_id' => $request->target_wallet_id ]);
 
         $transfer = new Transfer();
         $transfer->expense_transaction_id = $transactionExpense->id;
         $transfer->income_transaction_id = $transactionIncome->id;
-        $transfer->created_at = $request->transaction_date;
         $transfer->user_id = Auth::user()->id;
-
+        $transfer->save();
 
         return responder()->success(201);
     }
@@ -85,7 +76,7 @@ class TransferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Transfer  $transference
+     * @param  \App\Transfer $transference
      * @return \Illuminate\Http\Response
      */
     public function show($id)
