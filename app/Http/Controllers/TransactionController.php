@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use App\Transformers\TransactionTransformer;
+use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class TransactionController extends Controller
 {
@@ -13,28 +16,24 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($walletId, Request $request)
+    public function index(Request $request)
     {
-        $query = Transaction::where('wallet_id', $walletId);
+        $user =  Auth::user();
+        $transactions = $user->transactions();
 
-        if ($request->category_id) {
-            $query->where('category_id', $request->category_id);
+        if ($request->has('category_id')) {
+            $transactions->where('category_id', $request->category_id);
+        }
+        if ($request->has('currency_id')) {
+            $transactions->where('currency_id', $request->category_id);
+        }
+        if(count($transactions)>0){
+            return responder()->success($transactions);
         }
 
-        $transactions = $query->paginate(5);
-
-        return responder()->success($transactions);
+        return responder()->error('Not Found', 404,"No transaction was found");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,7 +43,33 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|max:255',
+            'transaction_date' => 'required|max:255',
+            'note' => 'nullable|boolean',
+            'location' => 'nullable|boolean',
+            'reminder_date' => 'nullable|max:255',
+            'reportable' => 'required|boolean',
+            'currency_id' => 'required|integer|exists:currencies,id',
+            'wallet_id' => 'required|integer|exists:wallets,id'
+        ]);
+
+        if ($validator->fails()) {
+            return responder()->error('validation_failed', 422);
+        }
+
+        $transaction = new Transaction();
+        $transaction->amount = $request->amount;
+        $transaction->transaction_date = $request->transaction_date;
+        $transaction->note = $request->note;
+        $transaction->location = $request->location;
+        $transaction->reminder_date = $request->reminder_date;
+        $transaction->reportable = $request->reportable;
+        $transaction->currency_id = $request->currency_id;
+        $transaction->wallet_id = $request->wallet_id;
+        $transaction->save();
+
+        return responder()->success(201);
     }
 
     /**
@@ -55,18 +80,14 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $transaction =  Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallet_id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if (Auth::user()->can('show', $wallet)) {
+                return responder()->transform($transaction, new TransactionTransformer())->respond();
+        }
+
+        return responder()->error('unauthorized', 403);
     }
 
     /**

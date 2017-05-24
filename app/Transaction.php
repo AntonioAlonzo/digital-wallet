@@ -14,7 +14,7 @@ class Transaction extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'amount', 'transaction_date', 'note', 'location', 'reminder_date', 'reportable',
+        'amount', 'transaction_date', 'note', 'location', 'reminder_date', 'reportable', 'currency_id', 'wallet_id',
     ];
 
     /**

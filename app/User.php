@@ -42,4 +42,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Event');
     }
+
+    public function transactions()
+    {
+        return $this->hasManyThrough('App\Transaction', 'App\Wallet');
+    }
+
 }

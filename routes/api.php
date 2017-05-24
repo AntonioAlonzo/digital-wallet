@@ -23,6 +23,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('/wallets/{id}', 'WalletController@destroy');
         Route::put('/wallets/{id}', 'WalletController@modify');
         Route::patch('/wallets/{id}', 'WalletController@update');
+
+        Route::get('/transactions' , 'TransactionController@index');
+        Route::get('/transactions/{id}' , 'TransactionController@show');
+        Route::post('/transactions' , 'TransactionController@store');
+
+
     });
+
 });
 
