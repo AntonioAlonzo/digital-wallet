@@ -11,14 +11,26 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class WalletTest extends TestCase
 {
+//'name', 'description', 'reportable',
+    use DatabaseTransactions;
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testCreatesWallet()
+    {
+        /*
+        $walletAttributes = [
+            'name' => 'name test',
+            'description'    => 'description test',
+            'reportable' => false,
+        ];
 
-    public function testWalletGetListSuccess(){
-        $url = '/api/v1/wallets';
-        $statusExpect=200;
-        // Test authenticated access.
-        $response=$this->get($url, $this->headers(User::first()));
-
-        $response->assertStatus($statusExpect);
+        $walletCreated=Wallet::create($walletAttributes);
+        $this->assertEquals($walletCreated->name,$walletAttributes->name);
+        $this->assertEquals($walletCreated->description,$walletAttributes->description);
+        */
     }
     public function testWalletGetDetailSuccess(){
         $url = '/api/v1/wallets/1';
