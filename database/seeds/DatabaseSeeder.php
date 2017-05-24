@@ -11,45 +11,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Create the initial balance category
-        DB::table('categories')->insert([
-            'name' => 'initial balance',
-            'type' => 'income',
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
-
-        $currencies = factory(App\Currency::class, 5)->create();
-        $walletTypes = factory(App\WalletType::class, 9)->create();
-        $categories = factory(App\Category::class, 10)->create();
-        $products = factory(App\Product::class, 15)->create();
+        $this->call(CategoriesTableSeeder::class);
+        $this->call(CurrenciesTableSeeder::class);
 
         // TODO: Refactor
         $users = factory(App\User::class, 5)
             ->create()
-            ->each(function ($user) use ($currencies, $walletTypes, $categories, $products) {
-                $events = factory(App\Event::class, 2)->create(['user_id' => $user->id]);
-
+            ->each(function ($user) {
                 factory(App\Wallet::class, 3)
                     ->create(
                         [
                             'user_id' => $user->id,
                         ]
                     )
-                    ->each(function ($wallet) use ($categories, $products, $events) {
+                    ->each(function ($wallet) {
                         factory(App\Transaction::class, 3)
                             ->create(
                                 [
                                     'wallet_id' => $wallet->id,
-                                    'category_id' => $categories[rand(0, 9)]->id,
-                                    'event_id' => $events[rand(0, 1)]->id,
+                                    'category_id' => rand(1, 18),
+                                    'currency_id' => rand(1, 5),
                                 ]
-                            )
-                            ->each(function ($transaction) use ($products) {
-                                for ($i = 0; $i < 2; $i++) {
-                                    $transaction->products()->attach($products[rand(0, 14)]->id);
-                                }
-                            });
+                            );
                     });
             });
 

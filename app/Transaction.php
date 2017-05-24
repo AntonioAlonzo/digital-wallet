@@ -14,7 +14,7 @@ class Transaction extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
-        'amount', 'transaction_date', 'note', 'location', 'reminder_date', 'reportable',
+        'amount', 'transaction_date', 'note', 'location', 'reminder_date', 'reportable', 'currency_id', 'wallet_id',
     ];
 
     /**
@@ -31,22 +31,6 @@ class Transaction extends Model implements Transformable
     public function category()
     {
         return $this->belongsTo('App\Category');
-    }
-
-    /**
-     * Get the event that owns the transaction.
-     */
-    public function event()
-    {
-        return $this->belongsTo('App\Event');
-    }
-
-    /**
-     * The products that belong to the transaction.
-     */
-    public function products()
-    {
-        return $this->belongsToMany('App\Product');
     }
 
     /**
