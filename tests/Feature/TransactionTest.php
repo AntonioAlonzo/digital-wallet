@@ -9,12 +9,16 @@
 namespace Tests\Feature;
 
 use App\Transaction;
+use Tests\TestCase;
+use App\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TransactionTest extends \PHPUnit_Framework_TestCase
+class TransactionTest extends TestCase
 {
 
-    public function testListTransactionsSuccess(){
+    use DatabaseTransactions;
 
+    public function testTransactionListSuccess(){
         $url = '/api/v1/transactions';
         $statusExpect=200;
 
@@ -25,15 +29,22 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionGetDetailSuccess(){
 
-        $url = '/api/v1/transactions/1';
+        $url = '/api/v1/transactions/2';
         $statusExpect=200;
         // Test authenticated access.
         $response=$this->get($url, $this->headers(User::first()));
         $response->assertStatus($statusExpect);
     }
 
+    public function testTransactionDeleteSuccess(){
+        $url = '/api/v1/transactions/1';
+        $statusExpect=200;
+        // Test authenticated access.
+        $response=$this->delete($url, $this->headers(User::first()));
+        $response->assertStatus($statusExpect);
+    }
 
-    public function testCategoryListFail(){
+    public function testTransactionListFail(){
 
         $url = '/api/v1/transactions';
         $statusExpect=400;
@@ -43,7 +54,8 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $response=$this->get($url, $this->headers());
         $response->assertStatus($statusExpect);
     }
-    public function testCategoryGetDetailFail(){
+
+    public function testTransactionGetDetailFail(){
 
         $url = '/api/v1/transactions/1';
         $statusExpect=400;
@@ -51,6 +63,16 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         // Test unauthenticated access.
         $response=$this->get($url, $this->headers());
         $response->assertStatus($statusExpect);
+
     }
+
+    public function testTransactionDeleteFail(){
+        $url = '/api/v1/transactions/1';
+        $statusExpect=200;
+        // Test authenticated access.
+        $response=$this->get($url, $this->headers());
+        $response->assertStatus($statusExpect);
+    }
+    
 
 }

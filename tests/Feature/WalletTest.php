@@ -30,8 +30,6 @@ class WalletTest extends TestCase
         $this->assertEquals($walletCreated->name,$walletAttributes->name);
         $this->assertEquals($walletCreated->description,$walletAttributes->description);
         */
-
-
     }
 
 }
