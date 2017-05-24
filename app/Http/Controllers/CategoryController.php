@@ -31,9 +31,20 @@ class CategoryController extends Controller
             if (count($categories) > 0) {
                 return responder()->transform($categories, new CategoryTransformer)->respond();
             }
-            return responder()->error('Not Found', 404, "Category not found");
+            return responder()
+                ->error
+                (
+                    Config::get('constants.ERROR_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.HTTP_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.ERROR_MESSAGES.RESOURCE_NOT_FOUND')
+                );
         }
-        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 
     public function show($id)
@@ -42,6 +53,11 @@ class CategoryController extends Controller
         $category = Category::findOrfail($id);
             return responder()->transform($category, new CategoryTransformer)->respond();
         }
-        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 }
