@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\User;
+use Illuminate\Http\Request;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Response;
+use JWTAuth;
+use App\Http\Requests\Authenticate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CategoryTest extends TestCase
@@ -12,27 +15,44 @@ class CategoryTest extends TestCase
 
  use DatabaseTransactions;
 
-    public function testBasicTest()
-    {
-        $response = $this->get('/');
 
-        $response->assertStatus(200);
-    }
-    public function testStatusIndex()
-    {
-        $response = $this->get('api/v1/categories');
-        $response->assertStatus(200);
-    }
-    public function testStatusIndex2()
-    {
-        $response = $this->get('categories');
-        $response->assertStatus(200);
-    }
+ public function testCategoryListSucces(){
 
+     $url = '/api/v1/categories';
+     $statusExpect=200;
 
- public function testCategoryGetDetails(){
-
+      // Test authenticated access.
+     $response=$this->get($url, $this->headers(User::first()));
+         $response->assertStatus($statusExpect);
  }
+    public function testCategoryGetDetailSucces(){
 
+        $url = '/api/v1/categories/1';
+        $statusExpect=200;
+        // Test authenticated access.
+        $response=$this->get($url, $this->headers(User::first()));
+        $response->assertStatus($statusExpect);
+    }
+
+
+    public function testCategoryListFail(){
+
+        $url = '/api/v1/categories';
+        $statusExpect=400;
+
+        // Test unauthenticated access.
+
+        $response=$this->get($url, $this->headers());
+        $response->assertStatus($statusExpect);
+    }
+    public function testCategoryGetDetailFail(){
+
+        $url = '/api/v1/categories/1';
+        $statusExpect=400;
+
+        // Test unauthenticated access.
+       $response=$this->get($url, $this->headers());
+        $response->assertStatus($statusExpect);
+    }
 
 }
