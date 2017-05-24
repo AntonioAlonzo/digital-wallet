@@ -18,7 +18,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $user =  Auth::user();
+        $user = Auth::user();
         $transactions = $user->transactions();
 
         if ($request->has('category_id')) {
@@ -27,8 +27,8 @@ class TransactionController extends Controller
         if ($request->has('currency_id')) {
             $transactions->where('currency_id', $request->currency_id);
         }
-        if(count($transactions)>0){
-            return responder()->success($transactions)->paginate(5);
+        if(count($transactions->get())>0){
+            return responder()->success($transactions);
         }
 
         return responder()->error('Not Found', 404,"No transaction was found");
