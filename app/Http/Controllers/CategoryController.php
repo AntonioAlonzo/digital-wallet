@@ -6,6 +6,7 @@ use App\Category;
 use App\Transformers\CategoryTransformer;
 use Illuminate\Http\Request;
 
+
 class CategoryController extends Controller
 {
     /**
@@ -13,11 +14,24 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(5);
+        $categories = Category::all();
 
-        return responder()->transform($categories, new CategoryTransformer)->respond();
+        if($request->has('name') ){
+            $categories=$categories->where('name',$request->input('name'));
+        }
+
+        if($request->has('type')){
+            $categories=$categories->where('type',$request->input('type'));
+        }
+
+        if(count($categories)>0) {
+            return responder()->transform($categories, new CategoryTransformer)->respond();
+        }
+
+        return responder()->error('Not Found', 404,"Category not found");
+
     }
 
     /**
@@ -28,50 +42,27 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::findOrfail($id);
 
-        if ($category->user_id == Auth::user()->id) {
             return responder()->transform($category, new CategoryTransformer)->respond();
-        }
 
-        return responder()->error('unauthorized', 403);
     }
 
 
     public function searchByName($name)
     {
         $categories = Category::where('name',$name);
-        $categories_result=null;
 
-        foreach ($categories as $category) {
+        return responder()->transform($categories, new CategoryTransformer)->respond();
 
-            if ($category->user_id == Auth::user()->id) {
-                $categories_result[]=$category;
-            }
-        }
-        if(count($categories_result)!=0) {
-            return responder()->transform($categories_result, new CategoryTransformer)->respond();
-        }
-
-        return responder()->error('unauthorized', 403);
     }
 
     public function searchByType($type)
     {
         $categories = Category::where('type',$type);
 
-        foreach ($categories as $category) {
+        return responder()->transform($categories, new CategoryTransformer)->respond();
 
-            if ($category->user_id == Auth::user()->id) {
-                $categories_result[]=$category;
-            }
-        }
-        if(count($categories_result)!=0) {
-            return responder()->transform($categories_result, new CategoryTransformer)->respond();
-        }
-
-
-        return responder()->error('unauthorized', 403);
     }
 
 
