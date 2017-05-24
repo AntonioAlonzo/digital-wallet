@@ -25,10 +25,10 @@ class TransactionController extends Controller
             $transactions->where('category_id', $request->category_id);
         }
         if ($request->has('currency_id')) {
-            $transactions->where('currency_id', $request->category_id);
+            $transactions->where('currency_id', $request->currency_id);
         }
         if(count($transactions)>0){
-            return responder()->success($transactions);
+            return responder()->success($transactions)->paginate(5);
         }
 
         return responder()->error('Not Found', 404,"No transaction was found");
@@ -51,7 +51,8 @@ class TransactionController extends Controller
             'reminder_date' => 'nullable|max:255',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
-            'wallet_id' => 'required|integer|exists:wallets,id'
+            'category_id' => 'required|integer|exists:categories,id',
+            'wallet_id' => 'required|integer|exists:wallets,id',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +67,7 @@ class TransactionController extends Controller
         $transaction->reminder_date = $request->reminder_date;
         $transaction->reportable = $request->reportable;
         $transaction->currency_id = $request->currency_id;
+        $transaction->category_id = $request->category_id;
         $transaction->wallet_id = $request->wallet_id;
         $transaction->save();
 
@@ -107,7 +109,8 @@ class TransactionController extends Controller
             'reminder_date' => 'nullable|max:255',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
-            'wallet_id' => 'required|integer|exists:wallets,id'
+            'category_id' => 'required|integer|exists:categories,id',
+            'wallet_id' => 'required|integer|exists:wallets,id',
         ]);
 
         if ($validator->fails()) {
