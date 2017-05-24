@@ -3,9 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,14 +31,6 @@ class Wallet extends Model
     public function wallet()
     {
         return $this->belongsTo('App\User');
-    }
-
-    /**
-     * Get the wallet type that owns the wallet.
-     */
-    public function walletType()
-    {
-        return $this->belongsTo('App\WalletType');
     }
 
     /**

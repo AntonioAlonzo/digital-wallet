@@ -34,22 +34,6 @@ class Transaction extends Model implements Transformable
     }
 
     /**
-     * Get the event that owns the transaction.
-     */
-    public function event()
-    {
-        return $this->belongsTo('App\Event');
-    }
-
-    /**
-     * The products that belong to the transaction.
-     */
-    public function products()
-    {
-        return $this->belongsToMany('App\Product');
-    }
-
-    /**
      * The transformer used to transform the model data.
      *
      * @return Transformer|callable|string|null

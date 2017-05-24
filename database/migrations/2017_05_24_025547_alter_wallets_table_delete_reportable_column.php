@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTransactionsTableAddEventForeignKey extends Migration
+class AlterWalletsTableDeleteReportableColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterTransactionsTableAddEventForeignKey extends Migration
      */
     public function up()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+        Schema::table('wallets', function (Blueprint $table) {
+            $table->dropColumn('reportable');
         });
     }
 
@@ -25,8 +25,8 @@ class AlterTransactionsTableAddEventForeignKey extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->dropForeign(['event_id']);
+        Schema::table('wallets', function (Blueprint $table) {
+            $table->boolean('reportable')->default(false);
         });
     }
 }

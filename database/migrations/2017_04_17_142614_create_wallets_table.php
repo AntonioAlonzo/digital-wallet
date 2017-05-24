@@ -17,14 +17,10 @@ class CreateWalletsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
-            //$table->decimal('initial_balance', 19, 4)->default(0);
-            //$table->date('initial_balance_date')->nullable();
             $table->boolean('reportable')->default(false);
             $table->timestamps();
 
             $table->integer('user_id')->unsigned();
-            $table->integer('currency_id')->unsigned();
-            $table->integer('wallet_type_id')->unsigned();
         });
     }
 

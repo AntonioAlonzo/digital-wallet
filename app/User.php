@@ -36,13 +36,8 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the events for the user.
+     * Get the transactions for the user.
      */
-    public function events()
-    {
-        return $this->hasMany('App\Event');
-    }
-
     public function transactions()
     {
         return $this->hasManyThrough('App\Transaction', 'App\Wallet');

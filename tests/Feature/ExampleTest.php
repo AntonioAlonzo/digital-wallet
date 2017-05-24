@@ -20,4 +20,22 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+    public function testCorrectTrueAssertControl()
+    {
+        $this->assertTrue(true);
+    }
+    public function testCorrectFalseAssertControl()
+    {
+        $this->assertFalse(false);
+    }
+    public function testIncorrectTrueAssertControl()
+    {
+        $this->assertTrue(false);
+    }
+    public function testIncorrectFalseAssertControl()
+    {
+        $this->assertFalse(true);
+    }
+
+
 }

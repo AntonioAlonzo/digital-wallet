@@ -27,29 +27,6 @@ $factory->define(App\Wallet::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->words($nb = 3, $asText = true),
         'description' => $faker->text($maxNbChars = 190),
-        //'initial_balance' => $faker->numerify('###.##'),
-        //'initial_balance_date' => $faker->date('Y-m-d'),
-        'reportable' => $faker->boolean,
-    ];
-});
-
-$factory->define(App\WalletType::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->word,
-    ];
-});
-
-$factory->define(App\Currency::class, function (Faker\Generator $faker) {
-    return [
-        'country' => $faker->country,
-        'code' => $faker->currencyCode,
-    ];
-});
-
-$factory->define(App\Category::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->word,
-        'type' => $faker->randomElement($array = array('income', 'expense')),
     ];
 });
 
@@ -64,17 +41,18 @@ $factory->define(App\Transaction::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Event::class, function (Faker\Generator $faker) {
+/*
+$factory->define(App\Currency::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->words($nb = 3, $asText = true),
-        'start_date' => $faker->date('Y-m-d'),
-        'end_date' => $faker->date('Y-m-d'),
+        'country' => $faker->country,
+        'code' => $faker->currencyCode,
     ];
 });
 
-$factory->define(App\Product::class, function (Faker\Generator $faker) {
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->words($nb = 3, $asText = true),
-        'barcode' => $faker->ean13,
+        'name' => $faker->word,
+        'type' => $faker->randomElement($array = array('income', 'expense')),
     ];
 });
+*/
