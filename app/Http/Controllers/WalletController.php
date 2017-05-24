@@ -59,7 +59,6 @@ class WalletController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::user();
         $wallet = Wallet::findOrFail($id);
 
         if (Auth::user()->can('show', $wallet)) {
