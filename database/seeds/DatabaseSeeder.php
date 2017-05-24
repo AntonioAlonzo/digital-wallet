@@ -36,13 +36,13 @@ class DatabaseSeeder extends Seeder
                             'user_id' => $user->id,
                         ]
                     )
-                    ->each(function ($wallet) use ($categories, $products, $events) {
+                    ->each(function ($wallet) use ($categories, $products,  $currencies) {
                         factory(App\Transaction::class, 3)
                             ->create(
                                 [
                                     'wallet_id' => $wallet->id,
                                     'category_id' => $categories[rand(0, 9)]->id,
-                                    'event_id' => $events[rand(0, 1)]->id,
+                                    'currency_id' => $currencies[rand(0, 4)]->id,
                                 ]
                             )
                             ->each(function ($transaction) use ($products) {

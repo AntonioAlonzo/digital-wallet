@@ -28,11 +28,8 @@ class TransactionTransformer extends Transformer
             'transaction_date' => $transaction->date,
             'note' => $transaction->note,
             'location' => $transaction->location,
-            'reminder_date' => $transaction->reminder_date,
             'reportable' => (boolean)$transaction->reportable,
             'category_id' => $transaction->category_id,
-            'event_id' => $transaction->event_id,
-
         ];
     }
 }
