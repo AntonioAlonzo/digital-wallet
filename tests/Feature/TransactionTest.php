@@ -68,11 +68,11 @@ class TransactionTest extends TestCase
 
     public function testTransactionDeleteFail(){
         $url = '/api/v1/transactions/1';
-        $statusExpect=200;
+        $statusExpect=400;
         // Test authenticated access.
         $response=$this->get($url, $this->headers());
         $response->assertStatus($statusExpect);
     }
-    
+
 
 }

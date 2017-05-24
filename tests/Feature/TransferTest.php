@@ -9,9 +9,11 @@
 namespace Tests\Feature;
 
 use App\Transfer;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
-class TransferTest extends \PHPUnit_Framework_TestCase
+class TransferTest extends TestCase
 {
     use DatabaseTransactions;
 
