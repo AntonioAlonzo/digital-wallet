@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,7 +48,13 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException)
         {
-            return responder()->error('resource_not_found', 404);
+            return responder()
+                ->error
+                (
+                    Config::get('constants.ERROR_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.HTTP_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.ERROR_MESSAGES.RESOURCE_NOT_FOUND')
+                );
         }
 
         return parent::render($request, $exception);
@@ -64,7 +70,13 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return responder()->error('unauthenticated', 401);
+            return responder()
+                ->error
+                (
+                    Config::get('constants.ERROR_CODES.UNAUTHENTICATED'),
+                    Config::get('constants.HTTP_CODES.UNAUTHENTICATED'),
+                    Config::get('constants.ERROR_MESSAGES.UNAUTHENTICATED')
+                );
         }
 
         return redirect()->guest(route('login'));

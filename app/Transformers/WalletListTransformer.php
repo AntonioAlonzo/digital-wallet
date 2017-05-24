@@ -4,17 +4,9 @@ namespace App\Transformers;
 
 use App\Wallet;
 use Flugg\Responder\Transformer;
-use League\Fractal\ParamBag;
 
-class WalletTransformer extends Transformer
+class WalletListTransformer extends Transformer
 {
-    /**
-     * A list of all available relations.
-     *
-     * @var array
-     */
-    protected $relations = [];
-
     /**
      * Transform the model data into a generic array.
      *
@@ -27,14 +19,7 @@ class WalletTransformer extends Transformer
             'id' => (int)$wallet->id,
             'name' => (string)$wallet->name,
             'description' => (string)$wallet->description,
-            'transactions' => $wallet->transactions,
-            'balance' => $wallet->balances,
 
         ];
-    }
-
-    public function transactions(Wallet $wallet, ParamBag $paramBag)
-    {
-        return $wallet->transactions;
     }
 }
