@@ -27,9 +27,9 @@ class WalletTransformer extends Transformer
             'id' => (int)$wallet->id,
             'name' => (string)$wallet->name,
             'description' => (string)$wallet->description,
-            'reportable' => (boolean)$wallet->reportable,
             'currency_id' => (int)$wallet->currency_id,
-            'wallet_type_id' => (int)$wallet->wallet_type_id,
+            'balance' => $wallet->balances,
+            'transactions' => $wallet->transactions
 
         ];
     }

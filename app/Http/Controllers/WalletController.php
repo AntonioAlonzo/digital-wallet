@@ -59,9 +59,52 @@ class WalletController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
         $wallet = Wallet::findOrFail($id);
 
         if (Auth::user()->can('show', $wallet)) {
+            $incomeTransactions = $wallet->transactions()->join("categories", "transactions.category_id", "=", "categories.id")
+                ->where("categories.type", "=", "income")->get();
+
+            $expenseTransactions = $wallet->transactions()->join("categories", "transactions.category_id", "=", "categories.id")
+                ->where("categories.type", "=", "expense")->get();
+
+            $incomes = array();
+            foreach ($incomeTransactions as $transaction) {
+                if (array_key_exists($transaction->currency_id, $incomes)) {
+                    $incomes[$transaction->currency_id] = $incomes[$transaction->currency_id] + $transaction->amount;
+                } else {
+                    $incomes[$transaction->currency_id] = $transaction->amount;
+                }
+            }
+
+            $expenses = array();
+            foreach ($expenseTransactions as $transaction) {
+                if (array_key_exists($transaction->currency_id, $expenses)) {
+                    $expenses[$transaction->currency_id] = $expenses[$transaction->currency_id] + $transaction->amount;
+                } else {
+                    $expenses[$transaction->currency_id] = $transaction->amount;
+                }
+            }
+
+            $balances = array();
+            foreach ($incomes as $key => $income) {
+                if (array_key_exists($key, $expenses)) {
+                    $balances[$key] = $income - $expenses[$key];
+                    unset($expenses[$key]);
+                } else {
+                    $balances[$key] = $income;
+                }
+            }
+
+            if (count($expenses) != 0) {
+                foreach ($expenses as $key => $expense) {
+                    $balances[$key] = $expense * (-1);
+                }
+            }
+
+            $wallet->balances = $balances;
+
             return responder()->transform($wallet, new WalletTransformer)->include('transactions')->respond();
         }
 
