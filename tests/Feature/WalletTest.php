@@ -54,12 +54,13 @@ class WalletTest extends TestCase
         $response->assertStatus($statusExpect);
     }
 
-    public function testCategoryListFail(){
+    public function testWalletCreateFail(){
 
-        $url = '/api/v1/categories';
+        $url = '/api/v1/wallets?name=prueba&descripcion=prueba';
         $statusExpect=400;
-        // Test unauthenticated access.
-        $response=$this->get($url, $this->headers());
+
+        // Test authenticated access.
+        $response=$this->post($url, $this->headers());
 
         $response->assertStatus($statusExpect);
     }
