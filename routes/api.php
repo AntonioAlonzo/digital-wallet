@@ -23,6 +23,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('/wallets/{id}', 'WalletController@destroy');
         Route::put('/wallets/{id}', 'WalletController@modify');
         Route::patch('/wallets/{id}', 'WalletController@update');
+
+        Route::get('/categories', 'CategoryController@index');
+        Route::get('/categories/{id}', 'CategoryController@show');
+        Route::get('/categories?name={name}', 'CategoryController@searchByName');
+        Route::get('/categories?type={type}', 'CategoryController@searchByType');
+
+
+
     });
 });
 
