@@ -32,9 +32,20 @@ class CurrencyController extends Controller
             if (count($currencies) > 0) {
                 return responder()->transform($currencies, new CurrencyTransformer())->respond();
             }
-            return responder()->error('Not Found', 404, "Currency not found");
+            return responder()
+                ->error
+                (
+                    Config::get('constants.ERROR_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.HTTP_CODES.RESOURCE_NOT_FOUND'),
+                    Config::get('constants.ERROR_MESSAGES.RESOURCE_NOT_FOUND')
+                );
         }
-        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 
     public function show($id)
@@ -43,6 +54,11 @@ class CurrencyController extends Controller
             $currency = Category::findOrfail($id);
             return responder()->transform($currency, new CurrencyTransformer())->respond();
         }
-        return responder()->error('unauthorized', 403, "You are not authorized to make this request.");
+        return responder()
+            ->error(
+                Config::get('constants.ERROR_CODES.UNAUTHORIZED'),
+                Config::get('constants.HTTP_CODES.UNAUTHORIZED'),
+                Config::get('constants.ERROR_MESSAGES.UNAUTHORIZED')
+            );
     }
 }
