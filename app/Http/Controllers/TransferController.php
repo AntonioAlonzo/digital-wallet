@@ -19,6 +19,7 @@ class TransferController extends Controller
     {
         $transfer = Transfer::where("user_id", Auth::user()->id);
 
+
         if (count($transfer->get()) > 0) {
             return responder()->success($transfer);
         }
@@ -36,11 +37,11 @@ class TransferController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|max:255',
-            'transaction_date' => 'required|max:255',
-            'note' => 'nullable|boolean',
-            'location' => 'nullable|boolean',
-            'reminder_date' => 'nullable|max:255',
+            'amount' => 'required|numeric',
+            'transaction_date' => 'required|date',
+            'note' => 'nullable|max:255',
+            'location' => 'nullable|max:255',
+            'reminder_date' => 'nullable|date',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
             'origin_wallet_id' => 'required|integer|exists:wallets,id',
@@ -51,14 +52,12 @@ class TransferController extends Controller
             return responder()->error('validation_failed', 422);
         }
 
-        $transactionExpense = new Transaction();
         $transactionExpense= Transaction::create(['amount' => $request->amount, 'transaction_date' => $request->transaction_date,
             'note' =>$request->note, 'location' => $request->location, 'reminder_date' => $request->reminder_date,
             'reportable' => $request->reportable, 'currency_id' => $request->currency_id, 'category_id' => 18,
             'wallet_id' => $request->origin_wallet_id ]);
 
 
-        $transactionIncome = new Transaction();
         $transactionIncome= Transaction::create(['amount' => $request->amount, 'transaction_date' => $request->transaction_date,
             'note' =>$request->note, 'location' => $request->location, 'reminder_date' => $request->reminder_date,
             'reportable' => $request->reportable, 'currency_id' => $request->currency_id, 'category_id' => 7,

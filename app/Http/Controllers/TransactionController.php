@@ -44,11 +44,11 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|max:255',
-            'transaction_date' => 'required|max:255',
-            'note' => 'nullable|boolean',
-            'location' => 'nullable|boolean',
-            'reminder_date' => 'nullable|max:255',
+            'amount' => 'required|numeric',
+            'transaction_date' => 'required|date',
+            'note' => 'nullable|max:255',
+            'location' => 'nullable|max:255',
+            'reminder_date' => 'nullable|date',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
             'category_id' => 'required|integer|exists:categories,id',
@@ -102,11 +102,11 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|max:255',
-            'transaction_date' => 'required|max:255',
-            'note' => 'nullable|boolean',
-            'location' => 'nullable|boolean',
-            'reminder_date' => 'nullable|max:255',
+            'amount' => 'required|numeric',
+            'transaction_date' => 'required|date',
+            'note' => 'nullable|max:255',
+            'location' => 'nullable|max:255',
+            'reminder_date' => 'nullable|date',
             'reportable' => 'required|boolean',
             'currency_id' => 'required|integer|exists:currencies,id',
             'category_id' => 'required|integer|exists:categories,id',
