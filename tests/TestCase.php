@@ -4,6 +4,7 @@ namespace Tests;
 
 
 use JWTAuth;
+use App\User;
 use App\Http\Requests\Authenticate;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

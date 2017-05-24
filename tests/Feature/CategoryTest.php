@@ -16,7 +16,7 @@ class CategoryTest extends TestCase
  use DatabaseTransactions;
 
 
- public function testCategoryListSucces(){
+ public function testCategoryListSuccess(){
 
      $url = '/api/v1/categories';
      $statusExpect=200;
@@ -25,26 +25,26 @@ class CategoryTest extends TestCase
      $response=$this->get($url, $this->headers(User::first()));
          $response->assertStatus($statusExpect);
  }
-    public function testCategoryGetDetailSucces(){
+    public function testCategoryGetDetailSuccess(){
 
         $url = '/api/v1/categories/1';
         $statusExpect=200;
         // Test authenticated access.
         $response=$this->get($url, $this->headers(User::first()));
+
         $response->assertStatus($statusExpect);
     }
-
 
     public function testCategoryListFail(){
 
         $url = '/api/v1/categories';
         $statusExpect=400;
-
         // Test unauthenticated access.
-
         $response=$this->get($url, $this->headers());
+
         $response->assertStatus($statusExpect);
     }
+
     public function testCategoryGetDetailFail(){
 
         $url = '/api/v1/categories/1';

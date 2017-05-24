@@ -9,7 +9,8 @@
         "flugger/laravel-responder": "^1.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "doctrine/dbal": "~2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
