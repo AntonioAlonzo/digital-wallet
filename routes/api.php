@@ -34,6 +34,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/transactions' , 'TransactionController@store');
         Route::delete('/transactions/{id}', 'TransactionController@destroy');
         Route::patch('/transactions/{id}', 'TransactionController@update');
+
+        Route::get('/transfers' , 'TransferController@index');
+        Route::get('/transfers/{id}' , 'TransferController@show');
+        Route::post('/transfers' , 'TransferController@store');
     });
 
 });
