@@ -33,6 +33,7 @@ class WalletTest extends TestCase
         $statusExpect=200;
         $wallet=array(
             'name'=> "prueba",
+            'description'=>"prueba"
         );
         // Test authenticated access.
         $response=$this->post($url, $this->headers(User::first()),$wallet);
