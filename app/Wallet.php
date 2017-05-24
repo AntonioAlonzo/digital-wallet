@@ -34,14 +34,6 @@ class Wallet extends Model
     }
 
     /**
-     * Get the wallet type that owns the wallet.
-     */
-    public function walletType()
-    {
-        return $this->belongsTo('App\WalletType');
-    }
-
-    /**
      * Get the currency that owns the wallet.
      */
     public function currency()

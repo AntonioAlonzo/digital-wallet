@@ -25,7 +25,6 @@ class CreateTransactionsTable extends Migration
 
             $table->integer('wallet_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->integer('event_id')->unsigned()->nullable();
         });
     }
 
