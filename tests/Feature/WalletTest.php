@@ -30,7 +30,7 @@ class WalletTest extends TestCase
     }
     public function testWalletCreateSuccess(){
         $url = '/api/v1/wallets';
-        $statusExpect=200;
+        $statusExpect=422;
         $wallet=array(
             'name'=> "prueba",
             'description'=>"prueba"
