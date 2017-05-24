@@ -99,7 +99,32 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|max:255',
+            'transaction_date' => 'required|max:255',
+            'note' => 'nullable|boolean',
+            'location' => 'nullable|boolean',
+            'reminder_date' => 'nullable|max:255',
+            'reportable' => 'required|boolean',
+            'currency_id' => 'required|integer|exists:currencies,id',
+            'wallet_id' => 'required|integer|exists:wallets,id'
+        ]);
+
+        if ($validator->fails()) {
+            return responder()->error('validation_failed', 422);
+        }
+
+        $transaction = Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallet_id);
+
+        if ($wallet->user_id == Auth::user()->id) {
+            $transaction->fill($request->all());
+            $transaction->save();
+
+            return responder()->success();
+        }
+
+        return responder()->error('unauthorized', 403);
     }
 
     /**
@@ -110,6 +135,15 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallet_id);
+
+        if ($wallet->user_id == Auth::user()->id) {
+            $transaction->delete();
+
+            return responder()->success();
+        }
+
+        return responder()->error('unauthorized', 403);
     }
 }

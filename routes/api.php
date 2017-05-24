@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/transactions' , 'TransactionController@index');
         Route::get('/transactions/{id}' , 'TransactionController@show');
         Route::post('/transactions' , 'TransactionController@store');
+        Route::delete('/transactions/{id}', 'WalletController@destroy');
 
 
     });
