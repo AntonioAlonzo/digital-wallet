@@ -34,8 +34,6 @@ class DatabaseSeeder extends Seeder
                     ->create(
                         [
                             'user_id' => $user->id,
-                            'currency_id' => $currencies[rand(0, 4)]->id,
-                            'wallet_type_id' => $walletTypes[rand(0, 8)]->id,
                         ]
                     )
                     ->each(function ($wallet) use ($categories, $products, $events) {
