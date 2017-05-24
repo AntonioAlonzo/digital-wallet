@@ -20,12 +20,12 @@ class TransferTransformer extends Transformer
      * @param  Transfer $transference
      * @return array
      */
-    public function transform(Transfer $transference)
+    public function transform(Transfer $transfer)
     {
         return [
-            'id' => (int) $transference->id,
-            'income_transaction_id' => (int) $transference->income_transaction_id,
-            'expense_transaction_id' => (int) $transference->expense_transaction_id,
+            'id' => (int) $transfer->id,
+            'income_transaction_id' => (int) $transfer->income_transaction_id,
+            'expense_transaction_id' => (int) $transfer->expense_transaction_id,
         ];
     }
 }

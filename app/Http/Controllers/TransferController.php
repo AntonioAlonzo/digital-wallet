@@ -14,10 +14,10 @@ class TransferController extends Controller
      */
     public function index()
     {
-        $transferences = Transfer::where("user_id", Auth::user()->id);
+        $transfer = Transfer::where("user_id", Auth::user()->id);
 
-        if(count($transferences->get())>0){
-            return responder()->success($transferences);
+        if(count($transfer->get())>0){
+            return responder()->success($transfer);
         }
 
         return responder()->error('Not Found', 404,"No transference was found");
@@ -58,7 +58,7 @@ class TransferController extends Controller
         $transactionExpense->currency_id = $request->currency_id;
         $transactionExpense->category_id = 0;
         $transactionExpense->wallet_id = $request->origin_wallet_id;
-        $transactionExpense->save();
+        $transactionExpense->create();
 
         $transactionIncome = new Transaction();
         $transactionIncome->amount = $request->amount;
@@ -70,7 +70,14 @@ class TransferController extends Controller
         $transactionIncome->currency_id = $request->currency_id;
         $transactionIncome->category_id = 1;
         $transactionIncome->wallet_id = $request->target_wallet_id;
-        $transactionIncome->save();
+        $transactionIncome->create();
+
+        $transfer = new Transfer();
+        $transfer->expense_transaction_id = $transactionExpense->id;
+        $transfer->income_transaction_id = $transactionIncome->id;
+        $transfer->created_at = $request->transaction_date;
+        $transfer->user_id = Auth::user()->id;
+
 
         return responder()->success(201);
     }
@@ -83,9 +90,9 @@ class TransferController extends Controller
      */
     public function show($id)
     {
-        $transference = Transfer::findOrFail($id);
+        $transfer = Transfer::findOrFail($id);
 
-        return responder()->success($transference);
+        return responder()->success($transfer);
     }
 
 }
