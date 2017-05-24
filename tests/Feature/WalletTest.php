@@ -29,14 +29,11 @@ class WalletTest extends TestCase
         $response->assertStatus($statusExpect);
     }
     public function testWalletCreateSuccess(){
-        $url = '/api/v1/wallets';
-        $statusExpect=422;
-        $wallet=array(
-            'name'=> "prueba",
-            'description'=>"prueba"
-        );
+        $url = '/api/v1/wallets?name=prueba&descripcion=prueba';
+        $statusExpect=200;
+
         // Test authenticated access.
-        $response=$this->post($url, $this->headers(User::first()),$wallet);
+        $response=$this->post($url, $this->headers(User::first()));
 
         $response->assertStatus($statusExpect);
     }
